@@ -7,6 +7,10 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
+function test() {
+    console.log("Hello from TabLayout");
+    }
+
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -27,9 +31,9 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
-        name="index"
+        name="display"
         options={{
-          title: 'Tab One',
+          title: 'Display Screen',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -46,6 +50,14 @@ export default function TabLayout() {
             </Link>
           ),
         }}
+      />
+        <Tabs.Screen
+          name="(input)"
+
+          options={{
+        title: 'Input',
+           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
       />
       <Tabs.Screen
         name="two"

@@ -1,14 +1,22 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import EditScreenInfo from '@/components/EditScreenInfo';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Text, View } from '@/components/Themed';
+import { Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
-export default function TabTwoScreen() {
+export default function Login() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+        <Text> Login </Text>
+
+        <Link href="/(tabs)/(input)/input" asChild>
+          <Pressable>
+            {({ pressed }) => (
+                <Text>Go to Tab One</Text>
+            )}
+          </Pressable>
+        </Link>
     </View>
   );
 }
