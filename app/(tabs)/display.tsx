@@ -1,59 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import { Song } from '../../api/apiClient';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { Review } from '../../api/apiClient';
 import client from "../../api/apiClient";
-import EditScreenInfo from '@/components/EditScreenInfo';
 
 export default function DisplayScreen() {
-    const [songs, setSongs] = useState<Array<Song>>([]);
 
-    const handleGetUsers = () => {
-        const fectchData = async () => {
-            try {
-                console.log("Fetching books");
-                const fetchedSongs = await client.getSongs();
-                if(fetchedSongs != null)
-                    setSongs(fetchedSongs as unknown as Song[]);
-            } catch(error) {
+    const [reviews, setReviews] = useState<Array<Review>>([]);
+
+    useEffect(() => {
+        getReviews();
+    }, []);
+
+    const getReviews = async () => {
+        try {
+            console.log("Getting reviews");
+            client.getReviews().then((response) => {
+                setReviews(response);
+            })
+            .catch((error) => { 
                 console.log(error);
-            }
+            });
+        } catch(error) {
+            console.log(error);
         }
-        fectchData();
     }
 
-    const handleDeleteSongs = () => {
-        const deleteData = async () => {
-            try {
-                await client.deleteAllSongs();
-                setSongs([]);
-            } catch(error) {
-                console.log(error);
-            }
-        }
-        deleteData();
+
+    const handleGetReviews = () => {
+        getReviews();
     }
 
-    const createReviewCard = (index: number, newSong: Song) => {
+    const createReviewCard = (index: number, newSong: Review) => {
         return (
             <View key={newSong.id} style={styles.listItem}>
-                <Text>Author: {newSong.artist}</Text>
-                <Text>Title: {newSong.title}</Text>
-                <Text>Year: {newSong.releaseYear}</Text>
+                <Text>Date: {newSong.date}</Text>
+                <Text>Review: {newSong.review}</Text>
             </View>
         );
     }
 
+    const createReviewCardList = () => {
+        if(reviews.length === 0) {
+            return (
+                <Text>No reviews</Text>
+            );
+        } else {
+            return (
+                <ScrollView>
+                    {reviews.map((item, index) => (
+                        createReviewCard(index, item)
+                    ))}
+                </ScrollView>
+            );
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text>Hello from DisplayTab</Text>
-            <ScrollView>
-                {songs.map((item, index) => (
-                    createReviewCard(index, item)
-                ))}
-            </ScrollView>
-
-            <Button title="Get Songs" onPress={handleGetUsers} />
-            <Button title="Clear Users" onPress={handleDeleteSongs} />
+            {createReviewCardList()}
+            <Button title="Get Reviews" onPress={handleGetReviews} />
         </View>
     );
 }

@@ -1,12 +1,7 @@
-import EditScreenInfo from '@/components/EditScreenInfo';
-
-import { Pressable } from 'react-native';
-import { Link, router } from 'expo-router';
+import {  router } from 'expo-router';
 
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
 
 import client from "../../../api/apiClient";
 import { Song } from '../../../api/apiClient';
@@ -25,17 +20,11 @@ export default function OneScreen() {
     const updateSearchTerm = (searchTerm: string) => {
         setSearchTerm(searchTerm);
 
-        client.getSearchResults(searchTerm)
-            .then((data) => 
+        client.getSearchResults(searchTerm).then((data) => 
         {
-            if (data === undefined) {
-                console.log("data is undefined");
-                throw new Error("data is undefined");
-            }
-
             setSearchList(data);
         })
-            .catch(error => { console.log(error); })
+        .catch(error => { console.log(error); })
     };
 
     const renderSearchItem = ({item}: {item: Song}) => {
@@ -45,8 +34,7 @@ export default function OneScreen() {
                 onPress={
                     () => {
                         setSelectedId(item.id);
-                        router.replace('/(tabs)/(input)/creator');
-                        console.log("Selected item: " + item.id);
+                        router.push( { pathname: '/(tabs)/(input)/creator', params: { songId: item.id } });
                     }
                 }
             />
