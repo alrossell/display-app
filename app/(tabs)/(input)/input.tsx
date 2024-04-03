@@ -1,7 +1,7 @@
 import {  router } from 'expo-router';
 
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, FlatList, Pressable } from 'react-native';
 
 import client from "../../../api/apiClient";
 import { Song } from '../../../api/apiClient';
@@ -47,9 +47,9 @@ export default function OneScreen() {
     };
 
     const SearchItem = ({item, onPress}: SearchItemProps) => (
-        <TouchableOpacity onPress={onPress}>
+        <Pressable onPress={onPress}>
                 <Text style={[styles.title]}>{item.title}</Text>
-        </TouchableOpacity>
+        </Pressable>
     );
 
     return (

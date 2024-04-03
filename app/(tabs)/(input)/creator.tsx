@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Button } from 'react-native';
+import { StyleSheet, TextInput, Pressable } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import {  useLocalSearchParams } from "expo-router";
-
 import {  router } from 'expo-router';
-import client from "../../../api/apiClient";
-import { Song, Review } from '../../../api/apiClient';
+import client, { Song, Review } from "../../../api/apiClient";
 
 export default function TwoScreen() {
     const [reviews, setReviews] = useState<string>('');
@@ -53,10 +51,9 @@ export default function TwoScreen() {
                 placeholder="useless placeholder"
                 keyboardType="numeric"
             />
-            <Button
-                onPress={handleSubmit}
-                title = "Submit"
-            />
+            <Pressable onPress={handleSubmit}>
+                <Text>Submit</Text>
+            </Pressable>
         </View>
     );
 }

@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native';
-import client, { Review } from "../../api/apiClient";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { Text, View } from '@/components/Themed';
+import client, { Review, User } from "../../api/apiClient";
+import userId from "./_layout";
 
-export default function DisplayScreen() {
-
-    const [reviews, setReviews] = useState<Array<Review>>([]);
-
-    useEffect(() => {
-        getReviews();
-    }, []);
+export default function YourReviewsScreen() {
+    const [user, setUser] = useState<User | null>(null);
+   const [reviews, setReviews] = useState<Array<Review>>([]); 
 
     const getReviews = async () => {
         try {
@@ -24,9 +22,9 @@ export default function DisplayScreen() {
         }
     }
 
-    const handleGetReviews = () => {
-        getReviews();
-    }
+    useEffect(() => {
+        getReviews(); 
+    }, []);
 
     const createReviewCard = (index: number, newSong: Review) => {
         return (
@@ -52,41 +50,30 @@ export default function DisplayScreen() {
             );
         }
     };
-
     return (
         <View style={styles.container}>
-            <Text>Hello from DisplayTab</Text>
+          <Text style={styles.title}>Your reviews</Text>
             {createReviewCardList()}
-            <Pressable onPress={handleGetReviews}>
-                <Text>Get Reviews</Text>
-            </Pressable>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        title: {
-            fontSize: 20,
-            fontWeight: 'bold',
-        },   
-        separator: {
-            marginVertical: 30,
-            height: 1,
-            width: '80%',
-        },
-        input: {
-            width: '100%',
-            height: 40,
-            marginBottom: 20,
-            borderWidth: 1,
-            padding: 10,
-        },
-        listItem: {
-            marginBottom: 10,
-        },
+     container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+     },
+     title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+     },
+     separator: {
+        marginVertical: 30,
+        height: 1,
+        width: '80%',
+     },
+    listItem: {
+        marginBottom: 10,
+    },
 });
