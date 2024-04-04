@@ -43,8 +43,6 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-export let userId: Number;
-
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
@@ -52,7 +50,9 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="new_user"/>
+        <Stack.Screen name="email_input"/>
+        <Stack.Screen name="password_input"/>
+        <Stack.Screen name="name_input"/>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>

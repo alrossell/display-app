@@ -20,6 +20,33 @@ export interface Song {
     durationSeconds: number 
 }
 
+export interface User {
+    id: number
+    first_name: string 
+    last_name: string 
+    email: string 
+    date: string 
+    password: string
+}
+
+export function convertToUser(userJson: any): User {
+    return {
+        id: userJson.id,
+        first_name: userJson.firstName,
+        last_name: userJson.last_name,
+        email: userJson.email,
+        date: userJson.date,
+        password: userJson.password
+    };
+}
+
+export function convertToUserArray(data: any): User[] {
+    for(let i = 0; i < data.length; i++) {
+        data[i] = convertToUser(data[i]);
+    }
+    return data;
+}
+
 export function convertToReview(reviewJson: any): Review {
     return {
         id: reviewJson.id,
@@ -59,6 +86,19 @@ export function convertToSongArray(data: any): Song[] {
 class APIClient {
     constructor(private apiUrl: string) {}
 
+    public async postUser(user: User): Promise<User> {
+        try {
+            console.log("Posting user")
+            const response = await axios.post<User>(`${this.apiUrl}/users`, user);
+            return convertToUser(response.data);
+        } catch (error) {
+            throw new Error('Error creating a new song');
+        }
+    }
+
+
+    /*------ Review Functiosn -------------------------------------------------------------------------------*/
+
     public async postReview(review: Review): Promise<Review> {
         try {
             console.log("Posting review")
@@ -87,13 +127,14 @@ class APIClient {
         }
     }
 
+    /*------ Search Functions -------------------------------------------------------------------------------*/
+
     public async getSearchResults(searchTerm: string): Promise<Song[]> {
         try {
             console.log("getSearchResults");
             const response = await axios.get<string[]>(`${this.apiUrl}/search`, {
                 params: { query: searchTerm } 
             });
-
             return convertToSongArray(response.data);
         } catch (error) {
             console.error('Error while searching for songs', error);
@@ -101,15 +142,8 @@ class APIClient {
         }
     }
 
-    public async deleteAllSongs(): Promise<void> {
-        try {
-            console.log("Deleting all songs");
-            await axios.delete(`${this.apiUrl}/songs`, {withCredentials: true});
-            console.log("Deleted all songs");
-        } catch (error) {
-            throw new Error('Error deleting all songs');
-        }
-    }
+
+    /*------ Song Functions ---------------------------------------------------------------------------------*/
 
     public async getSongs(): Promise<Song[]> {
         try {
@@ -147,14 +181,6 @@ class APIClient {
             return convertToSong(response.data);
         } catch (error) {
             throw new Error(`Error updating song with ID ${id}`);
-        }
-    }
-
-    public async deleteSong(id: string): Promise<void> {
-        try {
-            await axios.delete(`${this.apiUrl}/songs/${id}`);
-        } catch (error) {
-            throw new Error(`Error deleting song with ID ${id}`);
         }
     }
 }

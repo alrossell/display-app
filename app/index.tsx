@@ -33,7 +33,7 @@ export default function Login() {
                 </Pressable>
             </Link>
 
-            <Link href="/new_user" asChild>
+            <Link href="/email_input" asChild>
                 <Pressable>
                     {({ pressed }) => (
                         <Text>Create a new account</Text>

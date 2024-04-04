@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import client, { Review, User } from "../../api/apiClient";
-import userId from "./_layout";
+import client, { Review } from "../../api/apiClient";
 
 export default function YourReviewsScreen() {
-    const [user, setUser] = useState<User | null>(null);
-   const [reviews, setReviews] = useState<Array<Review>>([]); 
+    const [reviews, setReviews] = useState<Array<Review>>([]); 
 
     const getReviews = async () => {
         try {
-            console.log("Getting reviews");
             client.getReviews().then((response) => {
                 setReviews(response);
             })
-            .catch((error) => { 
-                console.log(error);
-            });
         } catch(error) {
             console.log(error);
         }
@@ -52,7 +46,7 @@ export default function YourReviewsScreen() {
     };
     return (
         <View style={styles.container}>
-          <Text style={styles.title}>Your reviews</Text>
+            <Text style={styles.title}>Your reviews</Text>
             {createReviewCardList()}
         </View>
     );
