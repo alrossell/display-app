@@ -6,6 +6,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 import client, { User } from '../api/apiClient';
 
+
 export default function NameInputScreen() {
     const params = useLocalSearchParams();
     const { email: email, password: password } = params;

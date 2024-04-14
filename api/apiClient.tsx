@@ -88,7 +88,7 @@ class APIClient {
 
     public async postUser(user: User): Promise<User> {
         try {
-            console.log("Posting user")
+            console.log("Posting user");
             const response = await axios.post<User>(`${this.apiUrl}/users`, user);
             return convertToUser(response.data);
         } catch (error) {
@@ -96,6 +96,25 @@ class APIClient {
         }
     }
 
+    public async getUsers(): Promise<User[]> {
+        try {
+            console.log("Getting users");
+            const response = await axios.get<User>(`${this.apiUrl}/users`);
+            return convertToUserArray(response.data);
+        } catch (error) {
+            throw new Error('Error creating a new song');
+        }
+    }
+
+    public async getUser(userName: string): Promise<User> {
+        try {
+            console.log("Getting user with name: ", userName);
+            const response = await axios.get<User>(`${this.apiUrl}/users/${userName}`);
+            return convertToUser(response.data);
+        } catch (error) {
+            throw new Error('Error creating a new song');
+        }
+    }
 
     /*------ Review Functiosn -------------------------------------------------------------------------------*/
 

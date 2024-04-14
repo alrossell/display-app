@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {  Pressable, StyleSheet, TextInput} from 'react-native';
 import { Text, View } from '@/components/Themed';
-
 import {  router } from 'expo-router';
 
 export default function UserEmailInputScreen() {
